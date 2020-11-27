@@ -1,8 +1,8 @@
 
 // global variables
-let dinoObjectsArrays=[]
-let gridElement = document.getElementById('grid')
-let formElement = document.getElementById('dino-compare') 
+let dinoObjectsArrays=[];
+let gridElement = document.getElementById('grid');
+let formElement = document.getElementById('dino-compare'); 
   
  // Create Dino Constructor
 function DinoConstructor(species,weight,height,diet,where,when,fact){
@@ -21,33 +21,41 @@ fetch('./dino.json')
 .then(data=>{return data.json()})
 .then(data=>{
     dinoObjectsArrays = data.Dinos.map(function(dino){
-        return new DinoConstructor(dino.species,dino.weight,dino.height,dino.diet,dino.where,dino.where,dino.when,dino.fact)
+        return new DinoConstructor(dino.species,dino.weight,dino.height,dino.diet,dino.where,dino.where,dino.when,dino.fact);
         }
     )
 })
 
     // Create Human Object
 function humanObject(name,height,weight,diet){
-    this.species = "human"
+    this.species = "human";
     this.name = name;
     this.height = height;
     this.weight = weight;
     this.diet = diet;
-    
-}
+    }
+    // validate form inputs function
+function validateInput(input){
+    if(input){
+        return input
+    }else{
+        alert("Form is Not Correctly filled out")
+        throw new Error("Form is Not Correctly filled out")
+    }
+}    
     // Use IIFE to get human data from form
 let humanDataObject = (function(){
     function getName(){
-        return document.getElementById('name').value
+        validateInput(document.getElementById('name').value)
     }
     function getHeight(){
-        return document.getElementById('feet').value
+        validateInput(document.getElementById('feet').value);
     }
     function getWeight(){
-        return document.getElementById('weight').value
+        validateInput(document.getElementById('weight').value);
     }
     function getDiet(){
-        return document.getElementById('diet').value
+        validateInput(document.getElementById('diet').value);
     }
     return {
         name:getName,
@@ -63,60 +71,60 @@ let humanDataObject = (function(){
     // NOTE: Weight in JSON file is in lbs, height in inches. 
 function compareWeights(humanObject){
     if (this.weight>humanObject.weight){
-        return "I'm heavier than you"
+        return "I'm heavier than you";
     }
     else if (this.weight<humanObject.weight){
-        return "I'm lighter than you" 
+        return "I'm lighter than you"; 
     }
     else{
-        return "We're the same weight woww!!"
+        return "We're the same weight woww!!";
     }
 }
-DinoConstructor.prototype.compareWeight = compareWeights
+DinoConstructor.prototype.compareWeight = compareWeights;
     
     // Create Dino Compare Method 2
     // NOTE: Weight in JSON file is in lbs, height in inches.
 function compareheights(humanObject){
     if (this.height>humanObject.height){
-        return "I'm taller"
+        return "I'm taller";
     }
     else if (this.height<humanObject.height){
-        return "I'm shorter"
+        return "I'm shorter";
     }
     else{
-        return "We're the same height"
+        return "We're the same height";
     }
 }
-DinoConstructor.prototype.compareHeight = compareheights
+DinoConstructor.prototype.compareHeight = compareheights;
     // Create Dino Compare Method 3
     // NOTE: Weight in JSON file is in lbs, height in inches.
 function compareDiets(humanObject){
     if (this.diet == humanObject.diet){
-        return "We both are on the same  diet"
+        return "We both are on the same  diet";
     }
     else{
-        return "We have two different diets"
+        return "We have two different diets";
     }
 }
-DinoConstructor.prototype.compareDiet = compareDiets
+DinoConstructor.prototype.compareDiet = compareDiets;
     // Generate Tiles for each Dino in Array
 function tileproducer(dinoObjectsArrays,humanObject){
     dinoObjectsArrays.forEach(function(object){
-        let newDivElement = document.createElement('div')
-        let imgElement = document.createElement('IMG')
-        imgElement.setAttribute('src',`/images/${object.species.toLowerCase()}.png`)
-        let pElement = document.createElement('P')
-        pElement.innerHTML = randomGenerator(object,humanObject)
-        let hElement = document.createElement('H3')
-        hElement.innerHTML = object.species 
-        newDivElement.appendChild(hElement)
-        newDivElement.appendChild(pElement)
-        newDivElement.appendChild(imgElement)
-        newDivElement.setAttribute('class','grid-item')
-        gridElement.appendChild(newDivElement)
+        let newDivElement = document.createElement('div');
+        let imgElement = document.createElement('IMG');
+        imgElement.setAttribute('src',`/images/${object.species.toLowerCase()}.png`);
+        let pElement = document.createElement('P');
+        pElement.innerHTML = randomGenerator(object,humanObject);
+        let hElement = document.createElement('H3');
+        hElement.innerHTML = object.species; 
+        newDivElement.appendChild(hElement);
+        newDivElement.appendChild(pElement);
+        newDivElement.appendChild(imgElement);
+        newDivElement.setAttribute('class','grid-item');
+        gridElement.appendChild(newDivElement);
 
     })
-    formElement.style.display= 'none'
+    formElement.style.display= 'none';
 } 
         // Add tiles to DOM
 
@@ -124,26 +132,26 @@ function tileproducer(dinoObjectsArrays,humanObject){
 // Generate facts randomley
 function randomGenerator(object,humanObject){
     if (object.species == 'human'){
-        return ""
+        return "";
     }
     else if (object.species=='Pigeon'){
-        return "All birds are dinasours"
+        return "All birds are dinasours";
     }
     else{
         let randomNum = Math.floor((Math.random()*6))
         switch (randomNum) {
             case 0:
-                return object.where
+                return object.where;
             case 1:
-                return object.when
+                return object.when;
             case 2:
-                return object.fact
+                return object.fact;
             case 3 :
-                return object.compareWeight(humanObject)
+                return object.compareWeight(humanObject);
             case 4:
-                return object.compareHeight(humanObject)     
+                return object.compareHeight(humanObject);     
             case 5:
-                return object.compareDiet(humanObject)
+                return object.compareDiet(humanObject);
           }
     }
 }
@@ -154,7 +162,7 @@ function randomGenerator(object,humanObject){
 // On button click, prepare and display infographic
 let btn = document.getElementById('btn');
 btn.addEventListener('click',function(){
-    let human = new humanObject(humanDataObject.name(),humanDataObject.height(),humanDataObject.weight(),humanDataObject.diet())
-    dinoObjectsArrays.splice(4,0,human)
-    tileproducer(dinoObjectsArrays,human)
+    let human = new humanObject(humanDataObject.name(),humanDataObject.height(),humanDataObject.weight(),humanDataObject.diet());
+    dinoObjectsArrays.splice(4,0,human);
+    tileproducer(dinoObjectsArrays,human);
 })
