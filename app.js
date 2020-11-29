@@ -28,7 +28,7 @@ fetch('./dino.json')
 
     // Create Human Object
 function humanObject(name,height,weight,diet){
-    this.species = "human";
+    this.species = 'human';
     this.name = name;
     this.height = height;
     this.weight = weight;
@@ -39,8 +39,8 @@ function validateInput(input){
     if(input){
         return input
     }else{
-        alert("Form is Not Correctly filled out")
-        throw new Error("Form is Not Correctly filled out")
+        alert('Form is Not Correctly filled out')
+        throw new Error('Form is Not Correctly filled out')
     }
 }    
     // Use IIFE to get human data from form
@@ -66,76 +66,13 @@ let humanDataObject = (function(){
 
 })();
 
-
-    // Create Dino Compare Method 1
-    // NOTE: Weight in JSON file is in lbs, height in inches. 
-function compareWeights(humanObject){
-    if (this.weight>humanObject.weight){
-        return "I'm heavier than you";
-    }
-    else if (this.weight<humanObject.weight){
-        return "I'm lighter than you"; 
-    }
-    else{
-        return "We're the same weight woww!!";
-    }
-}
-DinoConstructor.prototype.compareWeight = compareWeights;
-    
-    // Create Dino Compare Method 2
-    // NOTE: Weight in JSON file is in lbs, height in inches.
-function compareheights(humanObject){
-    if (this.height>humanObject.height){
-        return "I'm taller";
-    }
-    else if (this.height<humanObject.height){
-        return "I'm shorter";
-    }
-    else{
-        return "We're the same height";
-    }
-}
-DinoConstructor.prototype.compareHeight = compareheights;
-    // Create Dino Compare Method 3
-    // NOTE: Weight in JSON file is in lbs, height in inches.
-function compareDiets(humanObject){
-    if (this.diet == humanObject.diet){
-        return "We both are on the same  diet";
-    }
-    else{
-        return "We have two different diets";
-    }
-}
-DinoConstructor.prototype.compareDiet = compareDiets;
-    // Generate Tiles for each Dino in Array
-function tileproducer(dinoObjectsArrays,humanObject){
-    dinoObjectsArrays.forEach(function(object){
-        let newDivElement = document.createElement('div');
-        let imgElement = document.createElement('IMG');
-        imgElement.setAttribute('src',`/images/${object.species.toLowerCase()}.png`);
-        let pElement = document.createElement('P');
-        pElement.innerHTML = randomGenerator(object,humanObject);
-        let hElement = document.createElement('H3');
-        hElement.innerHTML = object.species; 
-        newDivElement.appendChild(hElement);
-        newDivElement.appendChild(pElement);
-        newDivElement.appendChild(imgElement);
-        newDivElement.setAttribute('class','grid-item');
-        gridElement.appendChild(newDivElement);
-
-    })
-    formElement.style.display= 'none';
-} 
-        // Add tiles to DOM
-
-    // Remove form from screen
 // Generate facts randomley
 function randomGenerator(object,humanObject){
     if (object.species == 'human'){
-        return "";
+        return '';
     }
     else if (object.species=='Pigeon'){
-        return "All birds are dinasours";
+        return 'All birds are dinasours';
     }
     else{
         let randomNum = Math.floor((Math.random()*6))
@@ -156,8 +93,63 @@ function randomGenerator(object,humanObject){
     }
 }
 
+    // Create Dino Compare Method 1
+    // NOTE: Weight in JSON file is in lbs, height in inches. 
+function compareWeights(humanObject){
+    if (this.weight>humanObject.weight){
+        return 'I am heavier than you';
+    }
+    else if (this.weight<humanObject.weight){
+        return 'I am lighter than you'; 
+    }
+    else{
+        return 'We are the same weight woww!!';
+    }
+}
+DinoConstructor.prototype.compareWeight = compareWeights;
+    
+    // Create Dino Compare Method 2
+    // NOTE: Weight in JSON file is in lbs, height in inches.
+function compareheights(humanObject){
+    if (this.height>humanObject.height){
+        return 'I am taller';
+    }
+    else if (this.height<humanObject.height){
+        return 'I am shorter';
+    }
+    else{
+        return 'We are the same height';
+    }
+}
+DinoConstructor.prototype.compareHeight = compareheights;
+    // Create Dino Compare Method 3
+    // NOTE: Weight in JSON file is in lbs, height in inches.
+function compareDiets(humanObject){
+    if (this.diet == humanObject.diet){
+        return 'We both are on the same  diet';
+    }
+    else{
+        return 'We have two different diets';
+    }
+}
+DinoConstructor.prototype.compareDiet = compareDiets;
+    // Generate Tiles for each Dino in Array
+function tileproducer(dinoObjectsArrays,humanObject){
+    dinoObjectsArrays.forEach(function(object){
+        let newDivElement = document.createElement('div');
+        let imgElement = document.createElement('IMG');
+        let pElement = document.createElement('P');
+        let hElement = document.createElement('H3');
+        imgElement.setAttribute('src',`/images/${object.species.toLowerCase()}.png`);
+        pElement.innerHTML = randomGenerator(object,humanObject);
+        hElement.innerHTML = object.species;
+        newDivElement.append(hElement,pElement,imgElement) 
+        newDivElement.setAttribute('class','grid-item');
+        gridElement.appendChild(newDivElement);
 
-
+    })
+    formElement.style.display= 'none';
+} 
 
 // On button click, prepare and display infographic
 let btn = document.getElementById('btn');
